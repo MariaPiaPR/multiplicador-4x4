@@ -1,0 +1,50 @@
+# Configuración del proyecto (formato plantilla Tiny Tapeout)
+project:
+  title:        "Multiplicador 4x4 de arreglo"
+  author:       "Equipo XXXX"          # <- poner nombres del equipo
+  discord:      ""
+  description:  "Multiplicador combinacional 4x4 bits (array multiplier) con 16 AND y 12 sumadores completos"
+  language:     "Verilog"
+  clock_hz:     0                     # Diseño combinacional, sin reloj
+
+  tiles: "1x1"
+
+  top_module:  "tt_um_multiplicador_4x4"
+
+  source_files:
+    - "project.v"
+    - "ripple_carry_4.v"
+    - "full_adder.v"
+
+pinout:
+  # Entradas
+  ui[0]: "A0"
+  ui[1]: "A1"
+  ui[2]: "A2"
+  ui[3]: "A3"
+  ui[4]: "B0"
+  ui[5]: "B1"
+  ui[6]: "B2"
+  ui[7]: "B3"
+
+  # Salidas
+  uo[0]: "P0"
+  uo[1]: "P1"
+  uo[2]: "P2"
+  uo[3]: "P3"
+  uo[4]: "P4"
+  uo[5]: "P5"
+  uo[6]: "P6"
+  uo[7]: "P7"
+
+  # Bidireccionales (no usadas)
+  uio[0]: ""
+  uio[1]: ""
+  uio[2]: ""
+  uio[3]: ""
+  uio[4]: ""
+  uio[5]: ""
+  uio[6]: ""
+  uio[7]: ""
+
+yaml_version: 6
