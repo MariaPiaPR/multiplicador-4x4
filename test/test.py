@@ -3,12 +3,12 @@ import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles, FallingEdge
 
-LATENCIA = 2  # registro de entrada + registro de salida
+LATENCY = 2  # input register + output register
 
 
 @cocotb.test()
 async def test_reset(dut):
-    """Con rst_n = 0 los registros deben quedar en cero."""
+    """While rst_n = 0 the registers must be cleared."""
     cocotb.start_soon(Clock(dut.clk, 10, unit="us").start())
     dut.ena.value = 1
     dut.uio_in.value = 0
@@ -16,12 +16,12 @@ async def test_reset(dut):
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 3)
     await FallingEdge(dut.clk)
-    assert int(dut.uo_out.value) == 0, "La salida no es 0 durante el reset"
+    assert int(dut.uo_out.value) == 0, "Output is not 0 during reset"
 
 
 @cocotb.test()
-async def test_multiplicador_exhaustivo(dut):
-    """Prueba las 256 combinaciones; el producto sale 2 ciclos después."""
+async def test_multiplier_exhaustive(dut):
+    """Check all 256 combinations; the product appears 2 cycles later."""
     cocotb.start_soon(Clock(dut.clk, 10, unit="us").start())
     dut.ena.value = 1
     dut.uio_in.value = 0
@@ -30,19 +30,19 @@ async def test_multiplicador_exhaustivo(dut):
     await ClockCycles(dut.clk, 5)
     dut.rst_n.value = 1
 
-    # Un dato nuevo en cada ciclo: se comprueba que los datos se
-    # desplazan correctamente por los registros (modo pipeline).
-    entradas = [(a, b) for b in range(16) for a in range(16)]
-    historial = []
-    for ciclo in range(len(entradas) + LATENCIA):
+    # A new input every cycle: checks that data shifts correctly
+    # through the registers (pipelined operation).
+    inputs = [(a, b) for b in range(16) for a in range(16)]
+    history = []
+    for cycle in range(len(inputs) + LATENCY):
         await FallingEdge(dut.clk)
-        if ciclo >= LATENCIA:
-            a, b = historial[ciclo - LATENCIA]
+        if cycle >= LATENCY:
+            a, b = history[cycle - LATENCY]
             p = int(dut.uo_out.value)
-            assert p == a * b, f"{a} x {b}: esperado {a*b}, obtenido {p}"
-        if ciclo < len(entradas):
-            a, b = entradas[ciclo]
+            assert p == a * b, f"{a} x {b}: expected {a*b}, got {p}"
+        if cycle < len(inputs):
+            a, b = inputs[cycle]
             dut.ui_in.value = (b << 4) | a
-            historial.append((a, b))
+            history.append((a, b))
 
-    dut._log.info("Las 256 combinaciones son correctas (latencia 2 ciclos)")
+    dut._log.info("All 256 combinations are correct (2-cycle latency)")

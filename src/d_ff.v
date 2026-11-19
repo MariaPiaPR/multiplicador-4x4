@@ -1,6 +1,6 @@
 /*
- * Flip-flop tipo D con reset síncrono activo en bajo.
- * En cada flanco de subida de clk: q <= d (o 0 si rst_n = 0).
+ * D flip-flop with active-low synchronous reset.
+ * On every rising edge of clk: q <= d (or 0 when rst_n = 0).
  */
 `default_nettype none
 

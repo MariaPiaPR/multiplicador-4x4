@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns / 1ps
 
-/* Envoltura del diseño para la simulación con cocotb (test.py). */
+/* Wrapper around the design for the cocotb simulation (test.py). */
 module tb ();
 
   initial begin
@@ -19,7 +19,7 @@ module tb ();
   wire [7:0] uio_out;
   wire [7:0] uio_oe;
 
-  tt_um_multiplicador_4x4 user_project (
+  tt_um_multiplier_4x4 user_project (
       .ui_in  (ui_in),
       .uo_out (uo_out),
       .uio_in (uio_in),

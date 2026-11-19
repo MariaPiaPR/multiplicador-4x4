@@ -1,5 +1,5 @@
 /*
- * Sumador completo de 1 bit (FA)
+ * 1-bit full adder (FA)
  *   s  = a XOR b XOR ci
  *   co = (a AND b) OR (ci AND (a XOR b))
  */

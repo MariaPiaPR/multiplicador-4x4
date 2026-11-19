@@ -1,5 +1,5 @@
 /*
- * Registro de 8 bits formado por 8 flip-flops tipo D (ff0..ff7).
+ * 8-bit register built from 8 D flip-flops.
  */
 `default_nettype none
 

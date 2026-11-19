@@ -1,15 +1,15 @@
-# Configuración del proyecto (formato plantilla Tiny Tapeout)
+# Project configuration (Tiny Tapeout template format)
 project:
-  title:        "Multiplicador 4x4 de arreglo"
-  author:       "Equipo XXXX"          # <- poner nombres del equipo
+  title:        "4x4 Array Multiplier"
+  author:       "Team XXXX"            # <- put the team members' names here
   discord:      ""
-  description:  "Multiplicador 4x4 bits (array multiplier) con registros de entrada/salida de flip-flops D"
+  description:  "4x4-bit array multiplier with D flip-flop input/output registers"
   language:     "Verilog"
-  clock_hz:     10000000              # 10 MHz (frecuencia de reloj sugerida)
+  clock_hz:     10000000              # 10 MHz (suggested clock frequency)
 
   tiles: "1x1"
 
-  top_module:  "tt_um_multiplicador_4x4"
+  top_module:  "tt_um_multiplier_4x4"
 
   source_files:
     - "project.v"
@@ -19,7 +19,7 @@ project:
     - "full_adder.v"
 
 pinout:
-  # Entradas
+  # Inputs
   ui[0]: "A0"
   ui[1]: "A1"
   ui[2]: "A2"
@@ -29,7 +29,7 @@ pinout:
   ui[6]: "B2"
   ui[7]: "B3"
 
-  # Salidas
+  # Outputs
   uo[0]: "P0"
   uo[1]: "P1"
   uo[2]: "P2"
@@ -39,7 +39,7 @@ pinout:
   uo[6]: "P6"
   uo[7]: "P7"
 
-  # Bidireccionales (no usadas)
+  # Bidirectional pins (unused)
   uio[0]: ""
   uio[1]: ""
   uio[2]: ""

@@ -1,40 +1,39 @@
-## Cómo funciona
+## How it works
 
-Multiplicador de 4×4 bits tipo **arreglo (array multiplier)** con registros de
-flip-flops D en la entrada y en la salida.
+4×4-bit **array multiplier** with D flip-flop registers at the input and the output.
 
-- **A** = `ui_in[3:0]` (multiplicando), **B** = `ui_in[7:4]` (multiplicador)
-- **P** = `uo_out[7:0]` = A × B (0 a 225)
+- **A** = `ui_in[3:0]` (multiplicand), **B** = `ui_in[7:4]` (multiplier)
+- **P** = `uo_out[7:0]` = A × B (0 to 225)
 
-Estructura a nivel compuerta:
+Gate-level structure:
 
-1. **16 compuertas AND** generan los productos parciales `a[i] AND b[j]`.
-2. **3 sumadores ripple-carry de 4 bits** (`u_fila1`, `u_fila2`, `u_fila3`), cada uno con
-   4 sumadores completos (`fa0`–`fa3`), suman los productos parciales fila por fila.
-   - Fila 1: suma `{0, a3b0, a2b0, a1b0}` + `{a3b1, a2b1, a1b1, a0b1}`
-   - Fila 2: suma `{c4, s3, s2, s1}` de la fila 1 + productos con `b2`
-   - Fila 3: suma `{c4, s3, s2, s1}` de la fila 2 + productos con `b3`
-3. Salidas: `p0 = a0b0`, `p1` = s0 de fila 1, `p2` = s0 de fila 2,
-   `p3..p6` = s0..s3 de fila 3 y `p7` = acarreo final de fila 3.
+1. **16 AND gates** generate the partial products `a[i] AND b[j]`.
+2. **3 4-bit ripple-carry adders** (`u_row1`, `u_row2`, `u_row3`), each made of
+   4 full adders (`fa0`–`fa3`), add the partial products row by row.
+   - Row 1: adds `{0, a3b0, a2b0, a1b0}` + `{a3b1, a2b1, a1b1, a0b1}`
+   - Row 2: adds `{c4, s3, s2, s1}` from row 1 + the products with `b2`
+   - Row 3: adds `{c4, s3, s2, s1}` from row 2 + the products with `b3`
+3. Outputs: `p0 = a0b0`, `p1` = s0 of row 1, `p2` = s0 of row 2,
+   `p3..p6` = s0..s3 of row 3 and `p7` = final carry of row 3.
 
-### Registros (flip-flops)
+### Registers (flip-flops)
 
 ```
-ui_in --> [u_reg_in: 8 FF D] --> multiplicador --> [u_reg_out: 8 FF D] --> uo_out
+ui_in --> [u_reg_in: 8 D FF] --> multiplier --> [u_reg_out: 8 D FF] --> uo_out
 ```
 
-- 16 flip-flops D (`d_ff`) agrupados en dos registros de 8 bits (`register_8`).
-- En cada flanco de subida de `clk` los datos se desplazan una etapa:
-  la entrada pasa al registro de entrada, y el producto al registro de salida.
-- **Latencia de 2 ciclos**: el resultado aparece en `uo_out` dos flancos de reloj
-  después de colocar A y B. Se puede meter un dato nuevo en cada ciclo.
-- `rst_n = 0` (reset síncrono) pone ambos registros en cero.
+- 16 D flip-flops (`d_ff`) grouped into two 8-bit registers (`register_8`).
+- On every rising edge of `clk` the data shifts one stage:
+  the inputs move into the input register, and the product into the output register.
+- **2-cycle latency**: the result appears on `uo_out` two clock edges after
+  A and B are applied. A new input can be applied every cycle.
+- `rst_n = 0` (synchronous reset) clears both registers.
 
-## Cómo probarlo
+## How to test
 
-1. Mantén `rst_n` en 0 durante algunos ciclos de reloj y luego ponlo en 1.
-2. Coloca A en los interruptores `ui_in[3:0]` y B en `ui_in[7:4]`.
-3. Tras 2 ciclos de reloj, el producto aparece en `uo_out[7:0]`.
+1. Hold `rst_n` low for a few clock cycles, then set it high.
+2. Set A on the `ui_in[3:0]` switches and B on `ui_in[7:4]`.
+3. After 2 clock cycles the product appears on `uo_out[7:0]`.
 
 | A (ui_in[3:0]) | B (ui_in[7:4]) | ui_in      | uo_out (P)       |
 |----------------|----------------|------------|------------------|
@@ -42,6 +41,6 @@ ui_in --> [u_reg_in: 8 FF D] --> multiplicador --> [u_reg_out: 8 FF D] --> uo_ou
 | 15             | 15             | `11111111` | `11100001` (225) |
 | 7              | 2              | `00100111` | `00001110` (14)  |
 
-## Hardware externo
+## External hardware
 
-Ninguno. Solo interruptores (DIP) para las entradas y LEDs para observar las salidas.
+None. Just DIP switches for the inputs and LEDs to see the outputs.

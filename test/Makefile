@@ -1,4 +1,4 @@
-# Makefile de cocotb (ejecutar: make -C test)
+# cocotb Makefile (run: cd test && make)
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src

@@ -1,45 +1,45 @@
-# Multiplicador 4×4 de arreglo — IEEE Open Silicon Bootcamp 2026
+# 4×4 Array Multiplier — IEEE Open Silicon Bootcamp 2026
 
-Circuito integrado digital: multiplicador combinacional de 4×4 bits
-(8 bits de entrada, 8 bits de salida), descrito en Verilog a nivel estructural,
-con registros de flip-flops D en la entrada y la salida (latencia de 2 ciclos).
+Digital integrated circuit: 4×4-bit multiplier (8 input bits, 8 output bits),
+described in structural Verilog, with D flip-flop registers at the input and
+the output (2-cycle latency).
 
-| Señal          | Función                    |
-|----------------|----------------------------|
-| `ui_in[3:0]`   | A (multiplicando)          |
-| `ui_in[7:4]`   | B (multiplicador)          |
-| `uo_out[7:0]`  | P = A × B (2 ciclos después) |
-| `clk`          | Reloj de los flip-flops    |
-| `rst_n`        | Reset síncrono, activo en bajo |
+| Signal         | Function                         |
+|----------------|----------------------------------|
+| `ui_in[3:0]`   | A (multiplicand)                 |
+| `ui_in[7:4]`   | B (multiplier)                   |
+| `uo_out[7:0]`  | P = A × B (2 cycles later)       |
+| `clk`          | Flip-flop clock                  |
+| `rst_n`        | Synchronous reset, active low    |
 
-## Estructura del repositorio
+## Repository layout
 
 ```
-src/project.v         Módulo principal tt_um_multiplicador_4x4 (registros + 16 AND + 3 filas)
-src/register_8.v      Registro de 8 bits (8 flip-flops D)
-src/d_ff.v            Flip-flop D con reset síncrono
-src/ripple_carry_4.v  Sumador ripple-carry de 4 bits (una fila)
-src/full_adder.v      Sumador completo de 1 bit
-test/test.py          Prueba cocotb: reset + 256 combinaciones con reloj
-test/tb.v             Envoltura para cocotb
-test/tb_simple.v      Testbench Verilog puro (sin Python)
-docs/info.md          Documentación del proyecto
-info.yaml             Configuración del proyecto (pines, módulo top, archivos)
+src/project.v         Top module tt_um_multiplier_4x4 (registers + 16 AND + 3 rows)
+src/register_8.v      8-bit register (8 D flip-flops)
+src/d_ff.v            D flip-flop with synchronous reset
+src/ripple_carry_4.v  4-bit ripple-carry adder (one row)
+src/full_adder.v      1-bit full adder
+test/test.py          cocotb test: reset + all 256 combinations with clock
+test/tb.v             cocotb wrapper
+test/tb_simple.v      Plain Verilog testbench (no Python)
+docs/info.md          Project documentation
+info.yaml             Project configuration (pins, top module, source files)
 ```
 
-## Simulación
+## Simulation
 
-Con Icarus Verilog únicamente:
+With Icarus Verilog only:
 
 ```bash
 iverilog -o sim test/tb_simple.v src/full_adder.v src/ripple_carry_4.v src/d_ff.v src/register_8.v src/project.v
 vvp sim
 ```
 
-Con cocotb:
+With cocotb:
 
 ```bash
 cd test && make
 ```
 
-Ver `docs/info.md` para la descripción detallada del circuito.
+See `docs/info.md` for a detailed description of the circuit.

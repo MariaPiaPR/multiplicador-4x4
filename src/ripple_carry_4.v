@@ -1,6 +1,6 @@
 /*
- * Sumador ripple-carry de 4 bits: 4 sumadores completos encadenados
- * (fa0 -> fa1 -> fa2 -> fa3). Corresponde a cada "Fila" del esquemático.
+ * 4-bit ripple-carry adder: 4 chained full adders
+ * (fa0 -> fa1 -> fa2 -> fa3). Each one is a "Row" of the schematic.
  */
 `default_nettype none
 
