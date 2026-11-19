@@ -12,6 +12,14 @@ the output (2-cycle latency).
 | `clk`          | Flip-flop clock                  |
 | `rst_n`        | Synchronous reset, active low    |
 
+## Authors
+
+- Daniel Delgado Gutiérrez
+- David Suárez Pérez
+- Emiliano Almanza Repetto
+- Inés Tejada Madrazo
+- María Pía Pacheco Rodríguez
+
 ## Repository layout
 
 ```

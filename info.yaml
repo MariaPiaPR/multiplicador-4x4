@@ -1,7 +1,7 @@
 # Project configuration (Tiny Tapeout template format)
 project:
   title:        "4x4 Array Multiplier"
-  author:       "Team XXXX"            # <- put the team members' names here
+  author:       "Daniel Delgado Gutiérrez, David Suárez Pérez, Emiliano Almanza Repetto, Inés Tejada Madrazo, María Pía Pacheco Rodríguez"
   discord:      ""
   description:  "4x4-bit array multiplier with D flip-flop input/output registers"
   language:     "Verilog"

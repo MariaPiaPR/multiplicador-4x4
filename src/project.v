@@ -16,6 +16,12 @@
  * Latency: the product appears on uo_out 2 clock cycles after A and B
  * are applied to ui_in. rst_n = 0 clears both registers.
  *
+ * Authors: Daniel Delgado Gutiérrez,
+ *          David Suárez Pérez,
+ *          Emiliano Almanza Repetto,
+ *          Inés Tejada Madrazo,
+ *          María Pía Pacheco Rodríguez
+ *
  * SPDX-License-Identifier: Apache-2.0
  */
 `default_nettype none
