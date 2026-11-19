@@ -2,7 +2,7 @@
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = project.v ripple_carry_4.v full_adder.v
+PROJECT_SOURCES = project.v register_8.v d_ff.v ripple_carry_4.v full_adder.v
 
 VERILOG_SOURCES += $(addprefix $(SRC_DIR)/,$(PROJECT_SOURCES))
 VERILOG_SOURCES += $(PWD)/tb.v

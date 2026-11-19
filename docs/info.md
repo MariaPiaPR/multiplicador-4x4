@@ -1,6 +1,7 @@
 ## Cómo funciona
 
-Multiplicador combinacional de 4×4 bits tipo **arreglo (array multiplier)**.
+Multiplicador de 4×4 bits tipo **arreglo (array multiplier)** con registros de
+flip-flops D en la entrada y en la salida.
 
 - **A** = `ui_in[3:0]` (multiplicando), **B** = `ui_in[7:4]` (multiplicador)
 - **P** = `uo_out[7:0]` = A × B (0 a 225)
@@ -16,11 +17,24 @@ Estructura a nivel compuerta:
 3. Salidas: `p0 = a0b0`, `p1` = s0 de fila 1, `p2` = s0 de fila 2,
    `p3..p6` = s0..s3 de fila 3 y `p7` = acarreo final de fila 3.
 
-No usa reloj ni reset.
+### Registros (flip-flops)
+
+```
+ui_in --> [u_reg_in: 8 FF D] --> multiplicador --> [u_reg_out: 8 FF D] --> uo_out
+```
+
+- 16 flip-flops D (`d_ff`) agrupados en dos registros de 8 bits (`register_8`).
+- En cada flanco de subida de `clk` los datos se desplazan una etapa:
+  la entrada pasa al registro de entrada, y el producto al registro de salida.
+- **Latencia de 2 ciclos**: el resultado aparece en `uo_out` dos flancos de reloj
+  después de colocar A y B. Se puede meter un dato nuevo en cada ciclo.
+- `rst_n = 0` (reset síncrono) pone ambos registros en cero.
 
 ## Cómo probarlo
 
-Coloca A en los interruptores `ui_in[3:0]` y B en `ui_in[7:4]`; el producto aparece en `uo_out[7:0]`.
+1. Mantén `rst_n` en 0 durante algunos ciclos de reloj y luego ponlo en 1.
+2. Coloca A en los interruptores `ui_in[3:0]` y B en `ui_in[7:4]`.
+3. Tras 2 ciclos de reloj, el producto aparece en `uo_out[7:0]`.
 
 | A (ui_in[3:0]) | B (ui_in[7:4]) | ui_in      | uo_out (P)       |
 |----------------|----------------|------------|------------------|
